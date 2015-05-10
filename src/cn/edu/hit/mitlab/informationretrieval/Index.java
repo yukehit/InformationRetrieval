@@ -89,7 +89,7 @@ public class Index {
 		File indexDir = new File(indexDirPath);
 		log = LogFactory.getLog(this.getClass());
 		if (!indexDir.exists())
-			indexDir.createNewFile();
+			indexDir.mkdirs();
 		Analyzer luceneAnalyzer = null;
 		if (langage == ENGLISH)
 			luceneAnalyzer = new StandardAnalyzer();
