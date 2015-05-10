@@ -11,8 +11,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoubleField;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -130,7 +132,9 @@ public class Index {
 			}else if(doc.storedTypes.get(e.getKey()) == StoredType.STRING_UN_TOKENIZED){
 				document.add(new StringField(e.getKey(), e.getValue(), Store.YES));
 			}else if(doc.storedTypes.get(e.getKey()) == StoredType.NUMERIC_LONG){
-				document.add(new NumericDocValuesField(e.getKey(), Long.parseLong(e.getValue())));
+				document.add(new LongField(e.getKey(), Long.parseLong(e.getValue()), Store.YES));
+			}else if(doc.storedTypes.get(e.getKey()) == StoredType.NUMERIC_DOUBLE){
+				document.add(new DoubleField(e.getKey(), Double.parseDouble(e.getValue()), Store.YES));
 			}
 		}
 		
@@ -154,7 +158,9 @@ public class Index {
 				}else if(df.storedTypes.get(e.getKey()) == StoredType.STRING_UN_TOKENIZED){
 					document.add(new StringField(e.getKey(), e.getValue(), Store.YES));
 				}else if(df.storedTypes.get(e.getKey()) == StoredType.NUMERIC_LONG){
-					document.add(new NumericDocValuesField(e.getKey(), Long.parseLong(e.getValue())));
+					document.add(new LongField(e.getKey(), Long.parseLong(e.getValue()), Store.YES));
+				}else if(df.storedTypes.get(e.getKey()) == StoredType.NUMERIC_DOUBLE){
+					document.add(new DoubleField(e.getKey(), Double.parseDouble(e.getValue()), Store.YES));
 				}
 			}
 

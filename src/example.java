@@ -78,9 +78,10 @@ public class example {
 		search.termQuery("contents", "≈£∂Ÿ", 100);
 		
 		System.out.println("--------------------termQuery using addNumericRangeFilter-----------------");
-		search.addNumericRangeFilter("num", 0, 100, true, true);
+		search.clearFilter();
+		search.addNumericRangeFilter("num", 0, 100000, true, true);
 //		search.clearFilter();
-		search.termQuery("contents", "±æ¡Ï", 100);
+		search.termQuery("contents", "≈£∂Ÿ", 100);
 //		search.addTermRangeFilter("", lowerTerm, upperTerm, includeLower, includeUpper);
 		
 		search.clearFilter();
@@ -156,7 +157,6 @@ public class example {
 	}
 	public static void main(String[] args) throws Exception {
 //		deleteTest();
-		Long.parseLong("1");
 		create();
 //		 Search search = new Search();
 //		 search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");

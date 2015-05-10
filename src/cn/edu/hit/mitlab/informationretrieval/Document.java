@@ -12,7 +12,7 @@ public class Document {
 	protected Map<String, StoredType> storedTypes;
 	
 	public enum StoredType{
-		NUMERIC_LONG, STRING_UN_TOKENIZED, STRING_TOKENIZED;
+		NUMERIC_DOUBLE, NUMERIC_LONG, STRING_UN_TOKENIZED, STRING_TOKENIZED;
 	}
 	
 	public Document(){

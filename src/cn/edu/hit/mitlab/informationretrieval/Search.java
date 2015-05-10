@@ -103,12 +103,13 @@ public class Search {
 		for (int i = 0; i < scoreDocs.length; i++) {
 			Document document = indexSearcher.doc(scoreDocs[i].doc);
 			System.out.println("File: " + document.get("path"));
+			System.out.println("Num = " + document.get("num"));
 		}
 		return topDocs;
 	}
 	
 	public void loadIndex(String... indexDirPaths) throws IOException {
-		if(indexReader.length > 0){
+		if((indexReader != null) && (indexReader.length > 0)){
 			for(DirectoryReader dr: indexReader)
 				dr.close();
 		}
