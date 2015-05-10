@@ -19,6 +19,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queries.TermFilter;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -171,6 +172,16 @@ public class Search {
 			return null;
 		}
 		query = new TermQuery(new Term(field, keyWord));
+		return doQuery(n);
+	}
+	
+	public TopDocs multiFieldQuery(String[] fields, String keyWord, int n) throws IOException, ParseException{
+		if (indexSearcher == null) {
+			System.err.println("lucene index hasn't be initialized!");
+			return null;
+		}
+		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(fields, getIKAnalyzer());
+		query = mfqp.parse(keyWord);
 		return doQuery(n);
 	}
 	
