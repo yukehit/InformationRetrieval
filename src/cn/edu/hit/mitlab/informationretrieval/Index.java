@@ -11,7 +11,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -21,6 +24,8 @@ import org.apache.lucene.util.Version;
 import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.dic.Dictionary;
 import org.wltea.analyzer.lucene.IKAnalyzer;
+
+import cn.edu.hit.mitlab.informationretrieval.Document.StoredType;
 
 /**
  * @author yk
@@ -89,7 +94,7 @@ public class Index {
 		File indexDir = new File(indexDirPath);
 		log = LogFactory.getLog(this.getClass());
 		if (!indexDir.exists())
-			indexDir.createNewFile();
+			indexDir.mkdirs();
 		Analyzer luceneAnalyzer = null;
 		if (langage == ENGLISH)
 			luceneAnalyzer = new StandardAnalyzer();
@@ -113,15 +118,22 @@ public class Index {
 	}
 
 	public void addIndex(
-			cn.edu.hit.mitlab.informationretrieval.Document docements)
+			cn.edu.hit.mitlab.informationretrieval.Document doc)
 			throws Exception {
 		if (indexWriter == null) {
 			System.err.println("the indexWriter has not be initialized");
 		}
 		Document document = new Document();
-		for (Entry<String, String> e : docements.fields.entrySet()) {
-			document.add(new TextField(e.getKey(), e.getValue(), Store.YES));
+		for (Entry<String, String> e : doc.fields.entrySet()) {
+			if(doc.storedTypes.get(e.getKey()) == StoredType.STRING_TOKENIZED){
+				document.add(new TextField(e.getKey(), e.getValue(), Store.YES));
+			}else if(doc.storedTypes.get(e.getKey()) == StoredType.STRING_UN_TOKENIZED){
+				document.add(new StringField(e.getKey(), e.getValue(), Store.YES));
+			}else if(doc.storedTypes.get(e.getKey()) == StoredType.NUMERIC_LONG){
+				document.add(new NumericDocValuesField(e.getKey(), Long.parseLong(e.getValue())));
+			}
 		}
+		
 		log.info("add 1 document");
 		indexWriter.addDocument(document);
 		indexWriter.commit();
@@ -133,12 +145,17 @@ public class Index {
 		if (indexWriter == null) {
 			System.err.println("the indexWriter has not be initialized");
 		}
-
 		for (cn.edu.hit.mitlab.informationretrieval.Document df : documents) {
 			Document document = new Document();
 
 			for (Entry<String, String> e : df.fields.entrySet()) {
-				document.add(new TextField(e.getKey(), e.getValue(), Store.YES));
+				if(df.storedTypes.get(e.getKey()) == StoredType.STRING_TOKENIZED){
+					document.add(new TextField(e.getKey(), e.getValue(), Store.YES));
+				}else if(df.storedTypes.get(e.getKey()) == StoredType.STRING_UN_TOKENIZED){
+					document.add(new StringField(e.getKey(), e.getValue(), Store.YES));
+				}else if(df.storedTypes.get(e.getKey()) == StoredType.NUMERIC_LONG){
+					document.add(new NumericDocValuesField(e.getKey(), Long.parseLong(e.getValue())));
+				}
 			}
 
 			indexWriter.addDocument(document);
@@ -149,9 +166,17 @@ public class Index {
 
 	public void deleteIndex(String fieldName, String keyWord) throws Exception {
 		indexWriter.deleteDocuments(new Term(fieldName, keyWord));
-		log.info("delete keyWord" + keyWord + " in field " + fieldName);
+		log.info("Delete keyWord" + keyWord + " in field " + fieldName);
 	}
 
+	public void deleteAll() throws IOException{
+		indexWriter.deleteAll();
+		log.info("Delete ALL");
+	}
+	
+	public void commit() throws IOException{
+		indexWriter.commit();
+	}
 	public void updateIndex(String fieldName, String keyWord,
 			cn.edu.hit.mitlab.informationretrieval.Document df)
 			throws Exception {

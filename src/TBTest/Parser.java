@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.lucene.document.Field.Store;
+
 import cn.edu.hit.mitlab.informationretrieval.Document;
+import cn.edu.hit.mitlab.informationretrieval.Document.StoredType;
 
 
 
@@ -62,12 +65,12 @@ public class Parser {
 					content = "";
 				}
 				
-				df.addField("DOCNO", no);
-				df.addField("URL", url);
+				df.addField("DOCNO", no, StoredType.STRING_UN_TOKENIZED);
+				df.addField("URL", url, StoredType.STRING_UN_TOKENIZED);
 				if(title.trim().length()>0)
-				df.addField("TITLE", title);
+				df.addField("TITLE", title,StoredType.STRING_TOKENIZED);
 				if(content.trim().length()>0)
-				df.addField("CONTENTS", content);
+				df.addField("CONTENTS", content,StoredType.STRING_TOKENIZED);
 				doc.appendDf(df);
 //				System.out.println("url="+url);
 //				System.out.println("no="+no);

@@ -4,15 +4,15 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
+
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.wltea.analyzer.cfg.Configuration;
-import org.wltea.analyzer.dic.Dictionary;
-import org.wltea.analyzer.lucene.IKAnalyzer;
+import org.apache.lucene.queryparser.classic.ParseException;
 
 import cn.edu.hit.mitlab.informationretrieval.*;
+import cn.edu.hit.mitlab.informationretrieval.BooleanQueryClause.Occur;
 
 /**
  * @author yk
@@ -45,6 +45,48 @@ public class example {
 		return result;
 	}
 
+	public static void queryTest() throws IOException, ParseException{
+		Search search = new Search();
+		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
+		search.query("contents", "≈£∂Ÿ", 100);
+		
+		System.out.println("--------------------termQuery-----------------");
+		search.termQuery("contents", "≈£∂Ÿ", 100);
+		
+		System.out.println("--------------------booleanQuery-----------------");
+		search.booleanQuery(100, new BooleanQueryClause[]{new BooleanQueryClause("contents", "≈£∂Ÿ", Occur.MUST),
+				new BooleanQueryClause("contents", "¿Æ∞»", Occur.MUST_NOT)});
+		
+		System.out.println("--------------------fuzzyQuery-----------------");
+		search.fuzzyQuery("contents", "≈£∂Ÿ", 100,1);
+		
+		System.out.println("--------------------regexpQuery-----------------");
+		search.regexpQuery("contents", "≈£.*", 100);
+		
+		System.out.println("--------------------prefixQuery-----------------");
+		search.prefixQuery("contents", "≈£", 100);
+		
+		System.out.println("--------------------phraseQuery-----------------");
+		search.phraseQuery("contents", new String[]{"≈£∂Ÿ", "¿Æ∞»","‘Á≥ø"}, 100, 100);
+		
+		System.out.println("--------------------multiphraseQuery-----------------");
+		search.multiPhraseQuery("contents", new String[]{"≈£∂Ÿ","¿Æ∞»","‘Á≥ø"}, 100,100);
+		
+//		
+		System.out.println("--------------------termQuery using addTermRangeFilter-----------------");
+		search.addTermRangeFilter("time", "0day", "9day", true, true);
+		search.termQuery("contents", "≈£∂Ÿ", 100);
+		
+		System.out.println("--------------------termQuery using addNumericRangeFilter-----------------");
+		search.addNumericRangeFilter("num", 0, 100, true, true);
+//		search.clearFilter();
+		search.termQuery("contents", "±æ¡Ï", 100);
+//		search.addTermRangeFilter("", lowerTerm, upperTerm, includeLower, includeUpper);
+		
+		search.clearFilter();
+		search.termQuery("path", "D:\\code\\InformationRetrieval\\luceneData\\1.txt", 100);
+	}
+	
 	public static void create() throws Exception {
 		Index ir = new Index();
 		File file = new File("D:\\code\\InformationRetrieval\\luceneIndex");
@@ -67,7 +109,7 @@ public class example {
 		String keyWord = "≈£∂Ÿ";
 		Search search = new Search();
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		search.search("contents",keyWord,  100);
+		search.query("contents",keyWord,  100);
 		Index ir = new Index();
 		File file = new File("D:\\code\\InformationRetrieval\\luceneIndex");
 		ir.initIndexWriter("D:\\code\\InformationRetrieval\\luceneIndex",
@@ -84,7 +126,7 @@ public class example {
 		
 		
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		search.search("contents",keyWord,  100);
+		search.query("contents",keyWord,  100);
 		
 		
 		System.out.println("--------------delete test end-------------------");
@@ -95,7 +137,7 @@ public class example {
 		String keyWord = "≈£∂Ÿ";
 		Search search = new Search();
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		search.search("contents",keyWord,  100);
+		search.query("contents",keyWord,  100);
 		Index ir = new Index();
 		File file = new File("D:\\code\\InformationRetrieval\\luceneIndex");
 		ir.initIndexWriter("D:\\code\\InformationRetrieval\\luceneIndex",
@@ -105,27 +147,27 @@ public class example {
 		
 		System.out.println("--------------after update-------------------");
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		search.search("path", "D:\\code\\InformationRetrieval\\luceneData\\1.txt" , 100);
-		search.search("contents",keyWord,  100);
+		search.query("path", "D:\\code\\InformationRetrieval\\luceneData\\1.txt" , 100);
+		search.query("contents",keyWord,  100);
 		search.termQuery("path","code", 100);
 		System.out.println("total docs  = " + ir.getTotalDocsNum());
 		ir.closeIndexWriter();
 		System.out.println("--------------delete test end-------------------");
 	}
-	public static void multiPhraseTest() throws IOException{
-		 Search search = new Search();
-		 search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		 System.out.println("----------------------term query test ------------------");
-		 search.termQuery("contents", "≈£∂Ÿ", 100);
-		 System.out.println();
-	}
 	public static void main(String[] args) throws Exception {
 //		deleteTest();
+		Long.parseLong("1");
 		create();
-		 Search search = new Search();
-		 search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		 search.search("contents","≈£∂Ÿ", 100);
-		 
-
+//		 Search search = new Search();
+//		 search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
+//		 search.search("contents","≈£∂Ÿ", 100);
+		 queryTest();
+		
+//		Index ir = new Index();
+//		ir.initIndexWriter("D:\\code\\InformationRetrieval\\luceneIndex",
+//				Index.CHINESE);
+//		ir.deleteAll();
+//		ir.commit();
+//		ir.closeIndexWriter();
 	}
 }

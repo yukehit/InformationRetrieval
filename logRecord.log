@@ -151,3 +151,177 @@
  
 2015-05-08 22:26:02,539INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
  
+2015-05-10 15:54:39,785INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:54:57,274INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:55:13,225INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 15:55:13,634INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:55:27,393INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:55:32,922INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:55:48,035INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 15:55:48,375INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:55:54,268INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 15:55:54,641INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 15:56:23,905INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:15:31,512INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:15:31,957INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteIndex(Index.java:152)] Delete keyWord≈£∂Ÿ in field contents
+ 
+2015-05-10 16:15:47,947INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:19:17,956INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 16:19:25,981INFO [cn.edu.hit.mitlab.informationretrieval.Index.deleteAll(Index.java:157)] Delete ALL
+ 
+2015-05-10 16:19:36,533INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:29:18,087INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:30:04,746INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:30:22,603INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:30:27,398INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:30:39,470INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:31:00,172INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:32:02,703INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:32:31,974INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:32:43,116INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:32:57,390INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:33:04,211INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:33:26,829INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:33:31,524INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:33:40,166INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:35:21,361INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:37:09,352INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:39:38,316INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:43:22,787INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:43:41,724INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:45:37,934INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:46:07,833INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:49:39,904INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:50:12,595INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 16:52:13,093INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 17:12:32,570INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 19:59:08,580INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:00:46,175INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:02:01,696INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:02:25,508INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:02:49,316INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:03:16,010INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:04:12,355INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:04:15,394INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:04:56,638INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:05:53,749INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:06:26,534INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:06:31,511INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:07:34,938INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:09:02,727INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:09:09,782INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:13:35,287INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:14:01,869INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:17:16,006INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:17:21,236INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:18:28,008INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:18:34,362INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:18:41,391INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:18:52,224INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:19:07,510INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:19:14,083INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:19:19,269INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:19:38,152INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:20:56,311INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:21:01,235INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:21:10,486INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:21:21,087INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:21:42,349INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:21:57,093INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:22:03,553INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:22:23,278INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:22:27,912INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:24:18,092INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:24:24,482INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:146)] add 43 documents
+ 
+2015-05-10 20:54:18,824INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 20:55:43,641INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 20:58:07,800INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 21:04:11,589INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 21:04:19,935INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 21:04:40,072INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
+2015-05-10 21:06:18,495INFO [cn.edu.hit.mitlab.informationretrieval.Index.addIndexs(Index.java:163)] add 43 documents
+ 
