@@ -13,6 +13,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.AtomicReaderContext;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.ParallelCompositeReader;
 import org.apache.lucene.index.Term;
@@ -22,14 +23,11 @@ import org.apache.lucene.queries.TermFilter;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.DocIdSet;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MultiPhraseQuery;
-import org.apache.lucene.search.MultiTermQuery;
 import org.apache.lucene.search.NumericRangeFilter;
 import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.PrefixQuery;
@@ -43,6 +41,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.AttributeSource;
 import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.Version;
@@ -59,7 +58,7 @@ import cn.edu.hit.mitlab.informationretrieval.BooleanQueryClause.Occur;
  * @version 1.0
  */
 public class Search {
-	private IndexReader indexReader = null;
+	private DirectoryReader indexReader = null;
 	private IndexSearcher indexSearcher = null;
 	private Filter filter = null;
 	private Query query = null;
@@ -74,6 +73,10 @@ public class Search {
 	
 	public void addNumericRangeFilter(String field, long min, long max, boolean minInclusive, boolean maxInclusive){
 		filter = NumericRangeFilter.newLongRange(field, min, max, minInclusive, maxInclusive);
+	}
+	
+	public void addNumericRangeFilter(String field, int min, int max, boolean minInclusive, boolean maxInclusive){
+		filter = NumericRangeFilter.newIntRange(field, min, max, minInclusive, maxInclusive);
 	}
 	
 	public void addTermRangeFilter(String field, String lowerTerm, String upperTerm, boolean includeLower, boolean includeUpper){
@@ -101,16 +104,16 @@ public class Search {
 		return topDocs;
 	}
 	
-	public void loadIndex(String indexDirPath) throws IOException {
+	public void loadIndex(String... indexDirPath) throws IOException {
 		if(indexReader != null)
 			indexReader.close();
-		File indexDir = new File(indexDirPath);
+		File indexDir = new File(indexDirPath[0]);
 		if (!indexDir.exists()) {
 			System.out
 					.println("Directory " + indexDirPath + " does not exist!");
 		}
-		Directory directory = FSDirectory.open(indexDir);
-		indexReader = IndexReader.open(directory);
+		Directory directory = MMapDirectory.open(indexDir);
+		indexReader = DirectoryReader.open(directory);
 		indexSearcher = new IndexSearcher(indexReader);
 //		indexSearcher.collectionStatistics(arg0) 
 	}
@@ -222,15 +225,15 @@ public class Search {
 	 * @return 
 	 * @throws IOException
 	 */
-	public TopDocs phraseQuery(Map<String, String> terms, int n, int slop)
+	public TopDocs phraseQuery(String field, String[] keyWords, int n, int slop)
 			throws IOException {
 		if (indexSearcher == null) {
 			System.err.println("lucene index hasn't be initialized!");
 			return null;
 		}
 		PhraseQuery pq = new PhraseQuery();
-		for(Entry<String, String> e: terms.entrySet()){
-			pq.add(new Term(e.getKey(), e.getValue()));
+		for(String s: keyWords){
+			pq.add(new Term(field, s));
 		}
 		pq.setSlop(slop);
 		
@@ -241,16 +244,29 @@ public class Search {
 	
 	
 	
-	public TopDocs multiPhraseQuery(Map<String, String> terms, int n)
+	/**
+	 * @param field
+	 * @param keyWords first keyword is the prefix
+	 * @param n
+	 * @return
+	 * @throws IOException
+	 */
+	public TopDocs multiPhraseQuery(String field, String[] keyWords, int n, int slop)
 			throws IOException {
 		if (indexSearcher == null) {
 			System.err.println("lucene index hasn't be initialized!");
 			return null;
 		}
 		MultiPhraseQuery mpq = new MultiPhraseQuery();
-		for(Entry<String, String> e: terms.entrySet()){
-			mpq.add(new Term(e.getKey(), e.getValue()));
+		mpq.add(new Term(field, keyWords[0]));
+		
+		Term[] terms = new Term[keyWords.length-1];
+		for(int i = 1; i < keyWords.length; i++){
+			terms[i-1] = new Term(field, keyWords[i]);
 		}
+		
+		mpq.add(terms);
+		mpq.setSlop(slop);
 		
 		query = mpq;
 		return doQuery(n);
@@ -297,7 +313,7 @@ public class Search {
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
-	public TopDocs search(String fieldName, String keyWord, int n) throws IOException, ParseException {
+	public TopDocs query(String fieldName, String keyWord, int n) throws IOException, ParseException {
 		if (indexSearcher == null) {
 			System.err.println("lucene index hasn't be initialized!");
 			return null;

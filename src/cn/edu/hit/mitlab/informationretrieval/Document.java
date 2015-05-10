@@ -8,16 +8,24 @@ import java.util.Map;
  * @version 1.0
  */
 public class Document {
-	public Map<String, String> fields;
+	protected Map<String, String> fields;
+	protected Map<String, StoredType> storedTypes;
+	
+	public enum StoredType{
+		NUMERIC_LONG, STRING_UN_TOKENIZED, STRING_TOKENIZED;
+	}
+	
 	public Document(){
 		fields = new HashMap<String, String>();
+		storedTypes = new HashMap<String, Document.StoredType>();
 	}
 	
 	/**
 	 * @param fieldName document fieldname
 	 * @param text text of this field
 	 */
-	public void addField(String fieldName, String text){
+	public void addField(String fieldName, String text, StoredType storedType){
 		fields.put(fieldName, text);
+		storedTypes.put(fieldName, storedType);
 	}
 }
