@@ -15,6 +15,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.AtomicReaderContext;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.index.ParallelCompositeReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
@@ -45,6 +46,7 @@ import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.AttributeSource;
 import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.Version;
+import org.apache.lucene.util.packed.DirectReader;
 import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.dic.Dictionary;
 import org.wltea.analyzer.lucene.IKAnalyzer;
@@ -58,10 +60,11 @@ import cn.edu.hit.mitlab.informationretrieval.BooleanQueryClause.Occur;
  * @version 1.0
  */
 public class Search {
-	private DirectoryReader indexReader = null;
+	private DirectoryReader[] indexReader = null;
 	private IndexSearcher indexSearcher = null;
 	private Filter filter = null;
 	private Query query = null;
+	private MultiReader multiReader = null;
 	/**
 	 * @param indexDirPath
 	 * @throws IOException
@@ -104,17 +107,28 @@ public class Search {
 		return topDocs;
 	}
 	
-	public void loadIndex(String... indexDirPath) throws IOException {
-		if(indexReader != null)
-			indexReader.close();
-		File indexDir = new File(indexDirPath[0]);
-		if (!indexDir.exists()) {
-			System.out
-					.println("Directory " + indexDirPath + " does not exist!");
+	public void loadIndex(String... indexDirPaths) throws IOException {
+		if(indexReader.length > 0){
+			for(DirectoryReader dr: indexReader)
+				dr.close();
 		}
-		Directory directory = MMapDirectory.open(indexDir);
-		indexReader = DirectoryReader.open(directory);
-		indexSearcher = new IndexSearcher(indexReader);
+		if(multiReader != null)
+			multiReader.close();
+		
+		indexReader = new DirectoryReader[indexDirPaths.length];
+		
+		for(int i = 0; i < indexDirPaths.length; i++){
+			File indexDir = new File(indexDirPaths[i]);
+			if (!indexDir.exists()) {
+				System.out
+						.println("Directory " + indexDirPaths[i] + " does not exist!");
+			}
+			Directory directory = MMapDirectory.open(indexDir);
+			indexReader[i] = DirectoryReader.open(directory);
+		}
+		
+		multiReader = new MultiReader(indexReader);
+		indexSearcher = new IndexSearcher(multiReader);
 //		indexSearcher.collectionStatistics(arg0) 
 	}
 	protected Analyzer getIKAnalyzer() {
