@@ -149,9 +149,17 @@ public class Index {
 
 	public void deleteIndex(String fieldName, String keyWord) throws Exception {
 		indexWriter.deleteDocuments(new Term(fieldName, keyWord));
-		log.info("delete keyWord" + keyWord + " in field " + fieldName);
+		log.info("Delete keyWord" + keyWord + " in field " + fieldName);
 	}
 
+	public void deleteAll() throws IOException{
+		indexWriter.deleteAll();
+		log.info("Delete ALL");
+	}
+	
+	public void commit() throws IOException{
+		indexWriter.commit();
+	}
 	public void updateIndex(String fieldName, String keyWord,
 			cn.edu.hit.mitlab.informationretrieval.Document df)
 			throws Exception {
