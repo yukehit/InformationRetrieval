@@ -6,13 +6,22 @@ import java.util.List;
 
 
 
+
+
+
+
+import javax.sql.rowset.serial.SerialArray;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 
 import cn.edu.hit.mitlab.informationretrieval.*;
 import cn.edu.hit.mitlab.informationretrieval.BooleanQueryClause.Occur;
+import cn.edu.hit.mitlab.informationretrieval.Search.SortFieldType;
 
 /**
  * @author yk
@@ -45,10 +54,16 @@ public class example {
 		return result;
 	}
 
+	public static void printDocInfo(Search search, TopDocs td) throws IOException{
+		for(ScoreDoc i: td.scoreDocs){
+			Document doc = search.getDocument(i.doc);
+			System.out.println(doc.getField("path"));
+		}
+	}
 	public static void queryTest() throws IOException, ParseException{
 		Search search = new Search();
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
-		search.query("contents", "Å£¶Ù", 100);
+		printDocInfo(search, search.query("contents", "Å£¶Ù", 100));
 		
 		System.out.println("--------------------termQuery-----------------");
 		search.termQuery("contents", "Å£¶Ù", 100);
@@ -157,19 +172,30 @@ public class example {
 		ir.closeIndexWriter();
 		System.out.println("--------------delete test end-------------------");
 	}
+	public static void sortTest() throws IOException{
+		Search search = new Search();
+		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
+//		search.setSort("path", SortFieldType.STRING, false);
+//		search.setSort("path", SortFieldType.DOC, false);
+//		search.setSort("num", SortFieldType.LONG, false);
+//		search.setSort("path", SortFieldType.SCORE, true);
+		printDocInfo(search, search.termQuery("contents", "Ò»¸ö", 100));
+		
+	}
 	public static void main(String[] args) throws Exception {
+		sortTest();
 //		deleteTest();
-		create();
+//		create();
 //		 Search search = new Search();
 //		 search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
 //		 search.search("contents","Å£¶Ù", 100);
-		 queryTest();
-		
+//		 queryTest();
 //		Index ir = new Index();
 //		ir.initIndexWriter("D:\\code\\InformationRetrieval\\luceneIndex",
 //				Index.CHINESE);
 //		ir.deleteAll();
 //		ir.commit();
 //		ir.closeIndexWriter();
+		
 	}
 }

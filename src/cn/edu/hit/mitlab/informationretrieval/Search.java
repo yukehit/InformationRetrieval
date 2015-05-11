@@ -1,26 +1,16 @@
 package cn.edu.hit.mitlab.informationretrieval;
 
-import java.beans.FeatureDescriptor;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.AtomicReaderContext;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.MultiReader;
-import org.apache.lucene.index.ParallelCompositeReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.queries.TermFilter;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -36,17 +26,13 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeFilter;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.AttributeSource;
-import org.apache.lucene.util.Bits;
-import org.apache.lucene.util.Version;
-import org.apache.lucene.util.packed.DirectReader;
 import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.dic.Dictionary;
 import org.wltea.analyzer.lucene.IKAnalyzer;
@@ -63,12 +49,57 @@ public class Search {
 	private DirectoryReader[] indexReader = null;
 	private IndexSearcher indexSearcher = null;
 	private Filter filter = null;
+	private Sort sort = null;
 	private Query query = null;
 	private MultiReader multiReader = null;
-	/**
-	 * @param indexDirPath
-	 * @throws IOException
-	 */
+	
+	public enum SortFieldType{
+		DOUBLE, STRING, DOC, LONG, SCORE;
+	}
+
+	public boolean setSort(String field, SortFieldType type, boolean reverse){
+		SortField sf = null;
+		if(type == SortFieldType.DOC){
+			sf = new SortField(field, SortField.Type.DOC, reverse);
+		}else if(type == SortFieldType.DOUBLE){
+			sf = new SortField(field, SortField.Type.DOUBLE, reverse);
+		}else if(type == SortFieldType.LONG){
+			sf = new SortField(field, SortField.Type.LONG, reverse);
+		}else if(type == SortFieldType.SCORE){
+			sf = new SortField(field, SortField.Type.SCORE, reverse);
+		}else if(type == SortFieldType.STRING){
+			sf = new SortField(field, SortField.Type.STRING, reverse);
+		}
+		sort = new Sort(sf);
+		return true;
+	}
+
+	public boolean setSort(String[] fields, SortFieldType[] types, boolean[] reverses){
+		if((fields.length == types.length) && (fields.length == reverses.length)){
+			SortField[] sfs = new SortField[fields.length];
+			for (int i = 0; i < fields.length; i++) {
+				if(types[i] == SortFieldType.DOC){
+					sfs[i] = new SortField(fields[i], SortField.Type.DOC, reverses[i]);
+				}else if(types[i] == SortFieldType.DOUBLE){
+					sfs[i] = new SortField(fields[i], SortField.Type.DOUBLE, reverses[i]);
+				}else if(types[i] == SortFieldType.LONG){
+					sfs[i] = new SortField(fields[i], SortField.Type.LONG, reverses[i]);
+				}else if(types[i] == SortFieldType.SCORE){
+					sfs[i] = new SortField(fields[i], SortField.Type.SCORE, reverses[i]);
+				}else if(types[i] == SortFieldType.STRING){
+					sfs[i] = new SortField(fields[i], SortField.Type.STRING, reverses[i]);
+				}
+			}
+			sort = new Sort(sfs);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public void clearSort(){
+		sort = null;
+	}
 	
 	public void addNumericRangeFilter(String field, double min, double max, boolean minInclusive, boolean maxInclusive){
 		filter = NumericRangeFilter.newDoubleRange(field, min, max, minInclusive, maxInclusive);
@@ -88,19 +119,6 @@ public class Search {
 	
 	public void clearFilter(){
 		filter = null;
-	}
-	
-	private TopDocs doQuery(int n) throws IOException{
-		TopDocs topDocs = indexSearcher.search(query,filter, n);
-		ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-		if (scoreDocs == null || scoreDocs.length == 0) {
-			System.out.println("not found");
-		}
-//		for (int i = 0; i < scoreDocs.length; i++) {
-//			Document document = indexSearcher.doc(scoreDocs[i].doc);
-//			System.out.println("File: " + document.get("path"));
-//		}
-		return topDocs;
 	}
 	
 	public void loadIndex(String... indexDirPaths) throws IOException {
@@ -365,4 +383,33 @@ public class Search {
 //            }  
 //        }  
     }
+	
+	private TopDocs doQuery(int n) throws IOException{
+		TopDocs topDocs;
+		if(sort != null){
+			topDocs = indexSearcher.search(query,filter, n, sort);
+		}else{
+			topDocs = indexSearcher.search(query,filter, n);
+		}
+		ScoreDoc[] scoreDocs = topDocs.scoreDocs;
+		if (scoreDocs == null || scoreDocs.length == 0) {
+			System.out.println("not found");
+		}
+//		System.out.println(topDocs.getMaxScore());
+//		for (int i = 0; i < scoreDocs.length; i++) {
+//			Document document = indexSearcher.doc(scoreDocs[i].doc);
+//			System.out.println("File: " + document.get("path") + " " + scoreDocs[i].score);
+//		}
+		return topDocs;
+	}
+	
+	public cn.edu.hit.mitlab.informationretrieval.Document getDocument(int docNum) throws IOException{
+		cn.edu.hit.mitlab.informationretrieval.Document doc = new cn.edu.hit.mitlab.informationretrieval.Document();
+		Document document = indexSearcher.doc(docNum);
+		for(IndexableField indexfield: document){
+			doc.fields.put(indexfield.name(), document.get(indexfield.name()));
+		}
+		
+		return doc;
+	}
 }

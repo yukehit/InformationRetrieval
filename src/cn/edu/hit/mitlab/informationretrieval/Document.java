@@ -28,4 +28,8 @@ public class Document {
 		fields.put(fieldName, text);
 		storedTypes.put(fieldName, storedType);
 	}
+	
+	public String getField(String fieldName){
+		return fields.get(fieldName);
+	}
 }
