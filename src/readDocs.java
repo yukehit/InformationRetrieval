@@ -21,6 +21,7 @@ public class readDocs {
 				d.addField("num", dataFiles[i].getName().replace(".txt", ""), StoredType.NUMERIC_LONG);
 				d.addField("time", dataFiles[i].getName().replace(".txt", "")+"day", StoredType.STRING_UN_TOKENIZED);
 				df.add(d);
+				
 			}
 		}
 		return df;

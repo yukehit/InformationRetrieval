@@ -79,13 +79,16 @@ public class example {
 		
 		System.out.println("--------------------termQuery using addNumericRangeFilter-----------------");
 		search.clearFilter();
-		search.addNumericRangeFilter("num", 0, 100000, true, true);
+		search.addNumericRangeFilter("num", 2, 10, true, true);
 //		search.clearFilter();
 		search.termQuery("contents", "ลฃถู", 100);
 //		search.addTermRangeFilter("", lowerTerm, upperTerm, includeLower, includeUpper);
 		
+		System.out.println("--------------------termQuery using addNumericRangeFilter-----------------");
 		search.clearFilter();
-		search.termQuery("path", "D:\\code\\InformationRetrieval\\luceneData\\1.txt", 100);
+		search.regexpQuery("contents", "ตุ.*", 100);
+		search.addQueryFilter();
+		search.termQuery("contents", "ลฃถู", 100);
 	}
 	
 	public static void create() throws Exception {
@@ -125,13 +128,12 @@ public class example {
 		System.out.println("total docs  = " + ir2.getTotalDocsNum());
 		System.out.println("--------------after delete-------------------");
 		
-		
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
 		search.query("contents",keyWord,  100);
 		
-		
 		System.out.println("--------------delete test end-------------------");
 	}
+	
 	public static void updateTest() throws Exception{
 		System.out.println("--------------update test start-------------------");
 		create();

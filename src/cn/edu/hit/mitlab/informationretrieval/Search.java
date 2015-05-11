@@ -78,10 +78,6 @@ public class Search {
 		filter = NumericRangeFilter.newLongRange(field, min, max, minInclusive, maxInclusive);
 	}
 	
-	public void addNumericRangeFilter(String field, int min, int max, boolean minInclusive, boolean maxInclusive){
-		filter = NumericRangeFilter.newIntRange(field, min, max, minInclusive, maxInclusive);
-	}
-	
 	public void addTermRangeFilter(String field, String lowerTerm, String upperTerm, boolean includeLower, boolean includeUpper){
 		filter = TermRangeFilter.newStringRange(field, lowerTerm, upperTerm, includeLower, includeUpper);
 	}
@@ -100,11 +96,10 @@ public class Search {
 		if (scoreDocs == null || scoreDocs.length == 0) {
 			System.out.println("not found");
 		}
-		for (int i = 0; i < scoreDocs.length; i++) {
-			Document document = indexSearcher.doc(scoreDocs[i].doc);
-			System.out.println("File: " + document.get("path"));
-			System.out.println("Num = " + document.get("num"));
-		}
+//		for (int i = 0; i < scoreDocs.length; i++) {
+//			Document document = indexSearcher.doc(scoreDocs[i].doc);
+//			System.out.println("File: " + document.get("path"));
+//		}
 		return topDocs;
 	}
 	
