@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -24,7 +27,7 @@ public class TBSearchTest {
     	int count = 0;
     	while(count < warmUpTimes+testTimes){
     		 Random random = new Random();
-    		 int s = random.nextInt(100000);
+    		 int s = random.nextInt(275000);
     		 String line;
     		 if((line = readLineN(s)) != null){
     			 keyWords.add(line);
@@ -80,10 +83,14 @@ public class TBSearchTest {
     	read.close();
     	return line;
     }
-	public static void main(String[] args) throws IOException {
-		System.out.println(file.isHidden());
+	public static void main(String[] args) throws IOException, InterruptedException {
+		MemoryMXBean mxbean = ManagementFactory.getMemoryMXBean();
+		MemoryUsage usage = mxbean.getHeapMemoryUsage();
+		System.out.println(usage.getUsed());
+		Thread.sleep(100000);
+//		System.out.println(file.isHidden());
 //		searchTest();
-		getRandomKeyWords();
-		System.out.println(keyWords);
+//		getRandomKeyWords();
+//		System.out.println(keyWords);
 	}
 }
