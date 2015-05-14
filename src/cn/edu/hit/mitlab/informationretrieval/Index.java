@@ -37,7 +37,7 @@ public class Index {
 	private IndexWriter indexWriter = null;
 	public static final int CHINESE = 1;
 	public static final int ENGLISH = 2;
-	Log log;
+	private Log log;
 
 	protected Analyzer getIKAnalyzer() {
 		Configuration cfg = new Configuration() {
@@ -84,9 +84,14 @@ public class Index {
 		return new IKAnalyzer(true);
 	}
 	
-	public int getTotalDocsNum(){
+	public int getNumDocs(){
 		return indexWriter.numDocs();
 	}
+	
+	public int getMaxDoc(){
+		return indexWriter.maxDoc();
+	}
+	
 	/**
 	 * @param indexDirPath
 	 * @throws IOException
@@ -138,7 +143,7 @@ public class Index {
 			}
 		}
 		
-		log.info("add 1 document");
+		log.info("Add 1 document");
 		indexWriter.addDocument(document);
 		indexWriter.commit();
 	}
@@ -166,13 +171,13 @@ public class Index {
 
 			indexWriter.addDocument(document);
 		}
-		log.info("add " + documents.size() + " documents");
+		log.info("Add " + documents.size() + " documents");
 		indexWriter.commit();
 	}
 
 	public void deleteIndex(String fieldName, String keyWord) throws Exception {
 		indexWriter.deleteDocuments(new Term(fieldName, keyWord));
-		log.info("Delete keyWord" + keyWord + " in field " + fieldName);
+		log.info("Delete keyWord " + keyWord + " in field " + fieldName);
 	}
 
 	public void deleteAll() throws IOException{
@@ -191,5 +196,6 @@ public class Index {
 			doc.add(new TextField(e.getKey(), e.getValue(), Store.YES));
 		}
 		indexWriter.updateDocument(new Term(fieldName, keyWord), doc);
+		log.info("Update document with keyWord " + keyWord + " in field " + fieldName);
 	}
 }

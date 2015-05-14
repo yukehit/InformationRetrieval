@@ -11,6 +11,9 @@ public class Document {
 	protected Map<String, String> fields;
 	protected Map<String, StoredType> storedTypes;
 	
+	/**
+	 * StoredType
+	 */
 	public enum StoredType{
 		NUMERIC_DOUBLE, NUMERIC_LONG, STRING_UN_TOKENIZED, STRING_TOKENIZED;
 	}
@@ -23,12 +26,17 @@ public class Document {
 	/**
 	 * @param fieldName document fieldname
 	 * @param text text of this field
+	 * @param storedType store type, see StoredType
 	 */
 	public void addField(String fieldName, String text, StoredType storedType){
 		fields.put(fieldName, text);
 		storedTypes.put(fieldName, storedType);
 	}
 	
+	/**
+	 * @param fieldName
+	 * @return the value of field
+	 */
 	public String getField(String fieldName){
 		return fields.get(fieldName);
 	}

@@ -57,6 +57,24 @@ public class Search {
 		DOUBLE, STRING, DOC, LONG, SCORE;
 	}
 
+	public int getMaxDoc(){
+		return multiReader.maxDoc();
+	}
+	
+	public int getNumDeletedDocs(){
+		return multiReader.numDeletedDocs();
+	}
+	
+	public int getNumDocs(){
+		return multiReader.numDocs();
+	}
+	
+	/**
+	 * @param field
+	 * @param type
+	 * @param reverse true for ASC, false for DESC 
+	 * @return true if set successfully, else false
+	 */
 	public boolean setSort(String field, SortFieldType type, boolean reverse){
 		SortField sf = null;
 		if(type == SortFieldType.DOC){
@@ -74,6 +92,12 @@ public class Search {
 		return true;
 	}
 
+	/**
+	 * @param fields
+	 * @param types
+	 * @param reverses reverse true for ASC, false for DESC 
+	 * @return true if set successfully, else false
+	 */
 	public boolean setSort(String[] fields, SortFieldType[] types, boolean[] reverses){
 		if((fields.length == types.length) && (fields.length == reverses.length)){
 			SortField[] sfs = new SortField[fields.length];
@@ -97,22 +121,49 @@ public class Search {
 		}
 	}
 	
+	/**
+	 * remove sort
+	 */
 	public void clearSort(){
 		sort = null;
 	}
 	
+	/**
+	 * @param field
+	 * @param min
+	 * @param max 
+	 * @param minInclusive include min?
+	 * @param maxInclusive include max?
+	 */
 	public void addNumericRangeFilter(String field, double min, double max, boolean minInclusive, boolean maxInclusive){
 		filter = NumericRangeFilter.newDoubleRange(field, min, max, minInclusive, maxInclusive);
 	}
 	
+	/**
+	 * @param field
+	 * @param min
+	 * @param max
+	 * @param minInclusive include min?
+	 * @param maxInclusive include max?
+	 */
 	public void addNumericRangeFilter(String field, long min, long max, boolean minInclusive, boolean maxInclusive){
 		filter = NumericRangeFilter.newLongRange(field, min, max, minInclusive, maxInclusive);
 	}
 	
+	/**
+	 * @param field
+	 * @param lowerTerm
+	 * @param upperTerm
+	 * @param includeLower
+	 * @param includeUpper
+	 */
 	public void addTermRangeFilter(String field, String lowerTerm, String upperTerm, boolean includeLower, boolean includeUpper){
 		filter = TermRangeFilter.newStringRange(field, lowerTerm, upperTerm, includeLower, includeUpper);
 	}
 	
+	/**
+	 * add QueryFilter, search from the result of the last query
+	 */
 	public void addQueryFilter(){
 		filter = new QueryWrapperFilter(query);
 	}
@@ -192,8 +243,7 @@ public class Search {
 	/**
 	 * @param field
 	 * @param keyWord
-	 * @param n
-	 *            top n docs
+	 * @param n top n docs
 	 * @throws IOException
 	 */
 	public TopDocs termQuery(String field, String keyWord, int n)
@@ -392,9 +442,9 @@ public class Search {
 			topDocs = indexSearcher.search(query,filter, n);
 		}
 		ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-		if (scoreDocs == null || scoreDocs.length == 0) {
-			System.out.println("not found");
-		}
+//		if (scoreDocs == null || scoreDocs.length == 0) {
+//			System.out.println("not found");
+//		}
 //		System.out.println(topDocs.getMaxScore());
 //		for (int i = 0; i < scoreDocs.length; i++) {
 //			Document document = indexSearcher.doc(scoreDocs[i].doc);
@@ -403,13 +453,18 @@ public class Search {
 		return topDocs;
 	}
 	
+	/**
+	 * @param docNum docNum 
+	 * @return return the document docNum
+	 * @throws IOException
+	 */
 	public cn.edu.hit.mitlab.informationretrieval.Document getDocument(int docNum) throws IOException{
 		cn.edu.hit.mitlab.informationretrieval.Document doc = new cn.edu.hit.mitlab.informationretrieval.Document();
 		Document document = indexSearcher.doc(docNum);
 		for(IndexableField indexfield: document){
 			doc.fields.put(indexfield.name(), document.get(indexfield.name()));
 		}
-		
+
 		return doc;
 	}
 }

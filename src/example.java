@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -12,6 +13,7 @@ import org.apache.lucene.search.TopDocs;
 
 import cn.edu.hit.mitlab.informationretrieval.*;
 import cn.edu.hit.mitlab.informationretrieval.BooleanQueryClause.Occur;
+import cn.edu.hit.mitlab.informationretrieval.Search.SortFieldType;
 
 /**
  * @author yk
@@ -47,7 +49,7 @@ public class example {
 	public static void printDocInfo(Search search, TopDocs td) throws IOException{
 		for(ScoreDoc i: td.scoreDocs){
 			Document doc = search.getDocument(i.doc);
-			System.out.println(doc.getField("path"));
+			System.out.println(doc.getField("path") + i.score);
 		}
 	}
 	public static void queryTest() throws IOException, ParseException{
@@ -105,7 +107,7 @@ public class example {
 				Index.CHINESE);
 		ir.addIndexs(new readDocs()
 				.read("D:\\code\\InformationRetrieval\\luceneData"));
-		System.out.println("total docs num = " + ir.getTotalDocsNum());
+		System.out.println("total docs num = " + ir.getMaxDoc());
 		ir.closeIndexWriter();
 		
 	}
@@ -130,7 +132,7 @@ public class example {
 		Index ir2 = new Index();
 		ir2.initIndexWriter("D:\\code\\InformationRetrieval\\luceneIndex",
 				Index.CHINESE);
-		System.out.println("total docs  = " + ir2.getTotalDocsNum());
+		System.out.println("total docs  = " + ir2.getMaxDoc());
 		System.out.println("--------------after delete-------------------");
 		
 		search.loadIndex("D:\\code\\InformationRetrieval\\luceneIndex");
@@ -158,7 +160,7 @@ public class example {
 		printDocInfo(search, search.query("path", "D:\\code\\InformationRetrieval\\luceneData\\1.txt" , 100));
 		printDocInfo(search, search.query("contents",keyWord,  100));
 		printDocInfo(search, search.termQuery("path","code", 100));
-		System.out.println("total docs  = " + ir.getTotalDocsNum());
+		System.out.println("total docs  = " + ir.getMaxDoc());
 		ir.closeIndexWriter();
 		System.out.println("--------------delete test end-------------------");
 	}
@@ -173,7 +175,7 @@ public class example {
 		
 	}
 	public static void main(String[] args) throws Exception {
-//		sortTest();
+		sortTest();
 //		deleteTest();
 //		create();
 //		 Search search = new Search();
